@@ -151,6 +151,7 @@ const renderNewPost = (p, before, starred) => {
       localStorage.setItem('starredPosts', JSON.stringify(starredPosts));
     } else {
       star.classList.add('fa-solid');
+      starred = true;
       starredPosts.unshift(p);
       localStorage.setItem('starredPosts', JSON.stringify(starredPosts));
     }
@@ -227,6 +228,7 @@ const updatePostElement = (newPost) => {
       localStorage.setItem('starredPosts', JSON.stringify(starredPosts));
     } else {
       star.classList.add('fa-solid');
+      starred = true;
       starredPosts.unshift(newPost);
       localStorage.setItem('starredPosts', JSON.stringify(starredPosts));
     }
