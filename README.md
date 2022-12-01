@@ -1,3 +1,6 @@
 ### Vanilla JS todo app
 
-`npm start` - запуск приложения
+### Как использовать:
+
+- `npm install` - установка пакетов
+- `npm run start` - запус приложения
