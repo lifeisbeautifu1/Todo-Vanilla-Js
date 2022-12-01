@@ -1,1 +1,3 @@
-### You can start the project with LiveServer extension in VS Code
+### Vanilla JS todo app
+
+`npm start` - запуск приложения
