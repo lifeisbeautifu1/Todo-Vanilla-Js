@@ -194,6 +194,7 @@ const renderPosts = (posts = [], before, starred) => {
 
 const updatePostElement = (newPost) => {
   console.log(selectedElementPost, newPost);
+  let starred = starredPosts.find((p) => p.id === newPost.id);
   selectedElementPost.querySelector('.post__title').textContent =
     newPost?.title;
   selectedElementPost.querySelector('.post__body').textContent = newPost?.body;
@@ -214,9 +215,7 @@ const updatePostElement = (newPost) => {
                   <i class="fa-solid fa-trash"></i>
                 </button>
                 <button tabindex="0" class="post__button post__button--star">
-                 <i class="fa-regular ${
-                   starredPosts.find((p) => p.id === newPost.id) && 'fa-solid'
-                 } fa-star"></i>
+                 <i class="fa-regular ${starred && 'fa-solid'} fa-star"></i>
                 </button>
      </div>`;
   const starBtn = selectedElementPost.querySelector('.post__button--star');
@@ -236,17 +235,58 @@ const updatePostElement = (newPost) => {
   const deleteBtn = selectedElementPost.querySelector('.post__button--delete');
   deleteBtn.addEventListener('click', () => {
     if (starred) {
-      selectedPost = p;
-      selectedElementPost = post;
+      selectedPost = newPost;
       deleteModal.classList.toggle('hidden');
     } else {
-      removePost(selectedElementPost, p);
+      removePost(selectedElementPost, newPost);
     }
   });
   const editBtn = selectedElementPost.querySelector('.post__button--edit');
   editBtn.addEventListener('click', () => {
     setModalToEdit(selectedElementPost, newPost);
   });
+  const editTippy = tippy('.post__button--edit', {
+    content: 'Edit post',
+  });
+  const deleteTippy = tippy('.post__button--delete', {
+    content: 'Delete post',
+  });
+  const starTippy = tippy('.post__button--star', {
+    content: 'Star post',
+  });
+  tippy.createSingleton([...editTippy, ...deleteTippy, ...starTippy], {
+    delay: 300,
+    moveTransition: 'transform 0.3s ease-out',
+  });
+  i++;
+  // const starBtn = selectedElementPost.querySelector('.post__button--star');
+  // starBtn.addEventListener('click', () => {
+  //   const star = starBtn.querySelector('.fa-star');
+  //   if (star.classList.contains('fa-solid')) {
+  //     star.classList.remove('fa-solid');
+  //     starredPosts = starredPosts.filter((post) => post.id !== newPost.id);
+  //     localStorage.setItem('starredPosts', JSON.stringify(starredPosts));
+  //   } else {
+  //     star.classList.add('fa-solid');
+  //     starred = true;
+  //     starredPosts.unshift(newPost);
+  //     localStorage.setItem('starredPosts', JSON.stringify(starredPosts));
+  //   }
+  // });
+  // const deleteBtn = selectedElementPost.querySelector('.post__button--delete');
+  // deleteBtn.addEventListener('click', () => {
+  //   if (starred) {
+  //     selectedPost = p;
+  //     selectedElementPost = post;
+  //     deleteModal.classList.toggle('hidden');
+  //   } else {
+  //     removePost(selectedElementPost, p);
+  //   }
+  // });
+  // const editBtn = selectedElementPost.querySelector('.post__button--edit');
+  // editBtn.addEventListener('click', () => {
+  //   setModalToEdit(selectedElementPost, newPost);
+  // });
   console.log(newPost);
   console.log(selectedElementPost);
 };
