@@ -179,10 +179,10 @@ const renderNewPost = (p, before, starred) => {
   const starTippy = tippy('.post__button--star', {
     content: 'Star post',
   });
-  tippy.createSingleton([...editTippy, ...deleteTippy, ...starTippy], {
-    delay: 300,
-    moveTransition: 'transform 0.3s ease-out',
-  });
+  // tippy.createSingleton([...editTippy, ...deleteTippy, ...starTippy], {
+  //   delay: 300,
+  //   moveTransition: 'transform 0.3s ease-out',
+  // });
   i++;
 };
 
@@ -254,10 +254,10 @@ const updatePostElement = (newPost) => {
   const starTippy = tippy('.post__button--star', {
     content: 'Star post',
   });
-  tippy.createSingleton([...editTippy, ...deleteTippy, ...starTippy], {
-    delay: 300,
-    moveTransition: 'transform 0.3s ease-out',
-  });
+  // tippy.createSingleton([...editTippy, ...deleteTippy, ...starTippy], {
+  //   delay: 300,
+  //   moveTransition: 'transform 0.3s ease-out',
+  // });
   i++;
   // const starBtn = selectedElementPost.querySelector('.post__button--star');
   // starBtn.addEventListener('click', () => {
