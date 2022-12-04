@@ -1,0 +1,25 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "start:dev": "npx tailwindcss -i ./style.css -o ./output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lifeisbeautifu1/Todo-Vanilla-Js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lifeisbeautifu1/Todo-Vanilla-Js/issues"
+  },
+  "homepage": "https://github.com/lifeisbeautifu1/Todo-Vanilla-Js#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.2.4",
+    "vite": "^3.2.4"
+  }
+}
