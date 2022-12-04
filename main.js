@@ -60,17 +60,20 @@ const fetchAllDataAndRender = async () => {
   try {
     // Start Loading
     document.dispatchEvent(loading);
-    // Fetch posts
+    // Get posts
     allPosts = await postsService.getPosts();
     // Set pages
     pages = Math.round(allPosts.length / pageSize);
 
     // Shuffle
-    allPosts = allPosts.sort((a, b) => Math.random() - 0.5);
-    // Fetch all users
+    allPosts = allPosts.sort(() => Math.random() - 0.5);
+
+    // Get all users
     users = await userService.getUsers();
 
+    // Render users in select
     renderUsers();
+
     // Append user data to each post respectively
     allPosts = allPosts.map((post) => {
       return {
@@ -79,11 +82,13 @@ const fetchAllDataAndRender = async () => {
       };
     });
 
+    // Get all starred posts & render them
     if (localStorage.getItem('starredPosts')) {
       starredPosts = JSON.parse(localStorage.getItem('starredPosts'));
       renderPosts(starredPosts, false, true);
     }
 
+    // Paginate posts
     posts = allPosts.slice(
       (page - 1) * pageSize,
       pageSize + (page - 1) * pageSize
@@ -92,6 +97,7 @@ const fetchAllDataAndRender = async () => {
     // Stop loading
     document.dispatchEvent(stopLoading);
 
+    // Render posts
     renderPosts(posts, false, false);
   } catch (error) {
     console.log(error);
@@ -170,6 +176,13 @@ const renderNewPost = (p, before, starred) => {
   editBtn.addEventListener('click', () => {
     setModalToEdit(post, p);
   });
+  i++;
+};
+
+const renderPosts = (posts = [], before, starred) => {
+  posts.forEach((p) => {
+    renderNewPost(p, before, starred);
+  });
   const editTippy = tippy('.post__button--edit', {
     content: 'Edit post',
   });
@@ -179,16 +192,9 @@ const renderNewPost = (p, before, starred) => {
   const starTippy = tippy('.post__button--star', {
     content: 'Star post',
   });
-  // tippy.createSingleton([...editTippy, ...deleteTippy, ...starTippy], {
-  //   delay: 300,
-  //   moveTransition: 'transform 0.3s ease-out',
-  // });
-  i++;
-};
-
-const renderPosts = (posts = [], before, starred) => {
-  posts.forEach((p) => {
-    renderNewPost(p, before, starred);
+  tippy.createSingleton([...editTippy, ...deleteTippy, ...starTippy], {
+    delay: 300,
+    moveTransition: 'transform 0.3s ease-out',
   });
 };
 
@@ -352,8 +358,6 @@ closeDeleteModalBtn.forEach((btn) =>
 
 closeModalBtn.addEventListener('click', () => {
   isEdit = false;
-  // selectedPost = null;
-  // selectedElementPost = null;
   toggleModal();
 });
 
@@ -361,8 +365,6 @@ modal.addEventListener('click', (event) => {
   const self = event.target.closest('.modal__body');
   if (!self) {
     isEdit = false;
-    // selectedPost = null;
-    // selectedElementPost = null;
     modal.classList.add('hidden');
   }
 });
@@ -386,7 +388,7 @@ const createPost = async (postData) => {
     allPosts.unshift(post);
     posts.unshift(post);
 
-    renderNewPost(post, true);
+    renderNewPost(post, true, false);
   } catch (error) {
     console.log(error);
   }
@@ -544,36 +546,24 @@ window.addEventListener('scroll', paginateOnScroll);
 
 // Proximity hover effect
 
-const anchor = document.getElementById('anchor');
+// const anchor = document.getElementById('anchor');
 
-const rect = anchor.getBoundingClientRect();
+// const rect = anchor.getBoundingClientRect();
+const leftEye = document.querySelector('#leftEye');
+const rightEye = document.querySelector('#rightEye');
 
-const eyes = document.querySelectorAll('.eye');
-
-const anchorX = rect.left + rect.width / 2;
-const anchorY = rect.top + rect.height / 2;
+const leftRect = leftEye.getBoundingClientRect();
 
 document.addEventListener('mousemove', (e) => {
-  const mouseX = e.clientX;
-  const mouseY = e.clientY;
+  const leftX = leftRect.left + window.scrollX + leftRect.width / 2;
+  const leftY = leftRect.top + +window.scrollY + leftRect.height / 2;
 
-  const angleDeg = angle(mouseX, mouseY, anchorX, anchorY);
+  const rad = Math.atan2(e.pageX - leftX, e.pageY - leftY);
+  const rot = rad * (180 / Math.PI) * -1 + 180;
 
-  eyes.forEach((eye) => {
-    eye.style.transform = `rotate(${angleDeg - 90}deg)`;
-  });
+  leftEye.style.transform = `rotate(${rot}deg)`;
+  rightEye.style.transform = `rotate(${rot}deg)`;
 });
-
-function angle(cx, cy, ex, ey) {
-  const dy = ey - cy;
-  const dx = ex - cx;
-
-  const rad = Math.atan2(dy, dx);
-
-  const deg = (rad * 180) / Math.PI;
-
-  return deg;
-}
 
 // Select user
 
