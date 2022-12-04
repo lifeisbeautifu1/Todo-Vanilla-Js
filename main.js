@@ -97,13 +97,13 @@ const fetchAllDataAndRender = async () => {
       pageSize + (page - 1) * pageSize
     );
 
-    // Stop loading
-    document.dispatchEvent(stopLoading);
-
     // Render posts
     renderPosts([...starredPosts, ...posts], false);
   } catch (error) {
     console.log(error);
+  } finally {
+    // Stop loading
+    document.dispatchEvent(stopLoading);
   }
 };
 
@@ -144,7 +144,7 @@ const renderNewPost = (p, before) => {
                  } fa-star"></i>
                 </button>
               </div>`;
-  if (i % 3 === 0) {
+  if (i % 3 == 0) {
     if (before) firstCol.insertBefore(post, firstCol.firstChild);
     else firstCol.appendChild(post);
   } else if (i % 3 == 1) {
