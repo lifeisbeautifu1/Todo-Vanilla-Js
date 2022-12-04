@@ -176,9 +176,9 @@ const renderNewPost = (p, before) => {
   i++;
 };
 
-const renderPosts = (posts = [], before, starred) => {
+const renderPosts = (posts = [], before) => {
   posts.forEach((p) => {
-    renderNewPost(p, before, starred);
+    renderNewPost(p, before);
   });
 };
 
